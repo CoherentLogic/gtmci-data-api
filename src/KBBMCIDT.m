@@ -1,5 +1,6 @@
 KBBMCIDT ;CLD/JPW - GT.M CALLIN DATA ACCESS API;7/13/2014
 ;;0.01;CIDT;**PATCHES**;7/13/2014;Build 0
+;;
 ;; Copyright (C) 2014 Coherent Logic Development LLC
 ;;  All Rights Reserved
 ;;
@@ -24,40 +25,48 @@ KBBMCIDT ;CLD/JPW - GT.M CALLIN DATA ACCESS API;7/13/2014
  QUIT ""
  ;
 SET(GLVN,VALUE)
+ S @GLVN=VALUE
  QUIT 1
  ;
  ;
 GET(GLVN)
- QUIT 1
+ QUIT @GLVN
  ;
  ;
 KILL(GLVN)
+ K @GLVN
  QUIT 1
  ;
  ;
 DATA(GLVN)
- QUIT 1
+ QUIT $D(@GLVN)
  ;
  ;
 ORDER(GLVN)
- QUIT 1
+ QUIT $O(@GLVN)
  ;
  ;
 QUERY(GLVN)
- QUIT 1
+ QUIT $Q(@GLVN)
  ;
  ;
 LOCK(GLVN)
- QUIT 1
+ L +@GLVN
+ QUIT $T
  ;
  ;
 UNLOCK(GLVN)
- QUIT 1
+ L -@GLVN
+ QUIT $T
  ;
  ;
 VERSION()
- QUIT 1
+ QUIT $ZVERSION
  ;
  ;
 FUNCTION(FN)
- QUIT 1
+ N RESULT S RESULT=""
+ X "S RESULT=$$"_FN
+ QUIT RESULT
+ ;
+ ;
