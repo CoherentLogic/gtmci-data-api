@@ -27,13 +27,11 @@
 
 #include <sys/types.h>
 #include <errno.h>
-#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
-#include <unistd.h>
 #include <gtmxc_types.h>
-#include "gtmdata.h"
+
 
 #define BUFLEN (2048 + 1)
 #define RETLEN ((1024 * 1024) + 1)
