@@ -32,17 +32,25 @@
 #include <termios.h>
 #include <gtmxc_types.h>
 
+#include <stdio.h>
 
 #define BUFLEN (2048 + 1)
 #define RETLEN ((1024 * 1024) + 1)
 
 struct termios stderr_sav, stdin_sav, stdout_sav;
 gtm_char_t ret[RETLEN];
-gtm_char_t msgbug[BUFLEN];
+gtm_char_t msgbuf[BUFLEN];
 gtm_status_t status;
 int db_opened = 0;
+const char *version = "GT.M Data Access Library 0.01 (CLD)\n  Copyright (C) 2014 Coherent Logic Development LLC";
 
-int open(void) 
+int gtmdata_version(char *result)
+{
+  strcpy(result, version);
+  return(1);
+}
+
+int db_open(void) 
 {
 
   if(db_opened) {
@@ -54,7 +62,7 @@ int open(void)
   char *gtmroutines = getenv("gtmroutines");
 
   /* we want to fail out if the GT.M environment is not configured */
-  if((gtmgbldir == NULL) | (gtm_dist == NULL) | (gtmroutines == NULL)) {
+  if((gtmgbldir == NULL) || (gtm_dist == NULL) || (gtmroutines == NULL)) {
     return(0);
   }
 
@@ -70,11 +78,12 @@ int open(void)
     return(0);
   }
   else {
+    db_opened = 1;
     return(1);
   }
 }
 
-int close(void)
+int db_close(void)
 {
   if(db_opened) {
     status = gtm_exit();
@@ -97,7 +106,7 @@ int close(void)
 }
 
 
-int set(char *glref, char *value)
+int db_set(char *glref, char *value)
 {
   if(!db_opened) {
     return(0);
@@ -120,7 +129,7 @@ int set(char *glref, char *value)
   }
 }
 
-int get(char *glref, char *result)
+int db_get(char *glref, char *result)
 {
   if(!db_opened) {
     return(0);
@@ -140,12 +149,12 @@ int get(char *glref, char *result)
     return(0);
   }
   else {
-    result = (char *) ret;
+    strcpy(result, ret);
     return(1);
   }
 }
 
-int kill(char *glref)
+int db_kill(char *glref)
 {
   if(!db_opened) {
     return(0);
@@ -168,7 +177,7 @@ int kill(char *glref)
   }
 }
 
-int data(char *glref)
+int db_data(char *glref)
 {
   if(!db_opened) {
     return(0);
@@ -192,7 +201,7 @@ int data(char *glref)
   }
 }
 
-int order(char *glref, char *result)
+int db_order(char *glref, char *result)
 {
   if(!db_opened) {
     return(0);
@@ -212,12 +221,12 @@ int order(char *glref, char *result)
     return(0);
   }
   else {
-    result = (char *) ret;
+    strcpy(result, ret);
     return(1);
   }
 }
 
-int query(char *glref, char *result)
+int db_query(char *glref, char *result)
 {
   if(!db_opened) {
     return(0);
@@ -237,12 +246,12 @@ int query(char *glref, char *result)
     return(0);
   }
   else {
-    result = (char *) ret;
+    strcpy(result, ret);
     return(1);
   }
 }
 
-int lock(char *glref)
+int db_lock(char *glref)
 {
   if(!db_opened) {
     return(0);
@@ -266,7 +275,7 @@ int lock(char *glref)
   }
 }
 
-int unlock(char *glref)
+int db_unlock(char *glref)
 {
   if(!db_opened) {
     return(0);
@@ -291,7 +300,7 @@ int unlock(char *glref)
 
 }
 
-int version(char *result)
+int db_version(char *result)
 {
   if(!db_opened) {
     return(0);
@@ -311,13 +320,13 @@ int version(char *result)
     return(0);
   }
   else {
-    result = (char *) ret;
+    strcpy(result, ret);
     return(1);
   }
 
 }
 
-int function(char *fn, char *result)
+int db_function(char *fn, char *result)
 {
   if(!db_opened) {
     return(0);
@@ -337,7 +346,7 @@ int function(char *fn, char *result)
     return(0);
   }
   else {
-    result = (char *) ret;
+    strcpy(result, ret);
     return(1);
   }
 }

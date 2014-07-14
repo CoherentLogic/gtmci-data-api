@@ -25,15 +25,16 @@
  *
  */
 
-extern int open(void);
-extern int close(void);
-extern int set(char *, char *);
-extern int get(char *, char *);
-extern int kill(char *);
-extern int data(char *);
-extern int order(char *, char *);
-extern int query(char *, char *);
-extern int lock(char *);
-extern int unlock(char *);
-extern int version(char *);
-extern int function(char *, char *);
+extern int gtmdata_version(char *);
+extern int db_open(void);
+extern int db_close(void);
+extern int db_set(char *, char *);
+extern int db_get(char *, char *);
+extern int db_kill(char *);
+extern int db_data(char *);
+extern int db_order(char *, char *);
+extern int db_query(char *, char *);
+extern int db_lock(char *);
+extern int db_unlock(char *);
+extern int db_version(char *);
+extern int db_function(char *, char *);
