@@ -114,12 +114,15 @@ int db_set(char *glref, char *value)
 
   char m_command[] = "set";
   ci_name_descriptor gtm_set;
+  gtm_long_t *ret_val;
+  
+  ret_val = (gtm_long_t *) malloc(sizeof(gtm_long_t));
 
   gtm_set.rtn_name.address = m_command;
   gtm_set.rtn_name.length = strlen(gtm_set.rtn_name.address);
   gtm_set.handle = NULL;
 
-  status = gtm_cip(&gtm_set, ret, glref, value);
+  status = gtm_cip(&gtm_set, ret_val, glref, value);
 
   if(status) {
     return(0);
@@ -162,12 +165,15 @@ int db_kill(char *glref)
 
   char m_command[] = "kill";
   ci_name_descriptor gtm_kill;
+  gtm_long_t *ret_val;
+
+  ret_val = (gtm_long_t *) malloc(sizeof(gtm_long_t));
 
   gtm_kill.rtn_name.address = m_command;
   gtm_kill.rtn_name.length = strlen(gtm_kill.rtn_name.address);
   gtm_kill.handle = NULL;
 
-  status = gtm_cip(&gtm_kill, ret, glref);
+  status = gtm_cip(&gtm_kill, ret_val, glref);
 
   if(status) {
     return(0);
@@ -185,19 +191,21 @@ int db_data(char *glref)
 
   char m_command[] = "data";
   ci_name_descriptor gtm_data;
-  gtm_int_t ret_val;
+  gtm_long_t *ret_val;
 
+  ret_val = (gtm_long_t *) malloc(sizeof(gtm_long_t));
+ 
   gtm_data.rtn_name.address = m_command;
   gtm_data.rtn_name.length = strlen(gtm_data.rtn_name.address);
   gtm_data.handle = NULL;
 
   status = gtm_cip(&gtm_data, ret_val, glref);
-
+  
   if(status) {
-    return(0);
+    return(-1);
   }
   else {
-    return((int) ret_val);
+    return((int) *ret_val);
   }
 }
 
@@ -259,7 +267,9 @@ int db_lock(char *glref)
 
   char m_command[] = "lock";
   ci_name_descriptor gtm_lock;
-  gtm_int_t ret_val;
+  gtm_long_t *ret_val;
+
+  ret_val = (gtm_long_t *) malloc(sizeof(gtm_long_t));
 
   gtm_lock.rtn_name.address = m_command;
   gtm_lock.rtn_name.length = strlen(gtm_lock.rtn_name.address);
@@ -271,7 +281,7 @@ int db_lock(char *glref)
     return(0);
   }
   else {
-    return((int) ret_val);
+    return((int) *ret_val);
   }
 }
 
@@ -283,7 +293,9 @@ int db_unlock(char *glref)
 
   char m_command[] = "unlock";
   ci_name_descriptor gtm_unlock;
-  gtm_int_t ret_val;
+  gtm_long_t *ret_val;
+
+  ret_val = (gtm_long_t *) malloc(sizeof(gtm_long_t));
 
   gtm_unlock.rtn_name.address = m_command;
   gtm_unlock.rtn_name.length = strlen(gtm_unlock.rtn_name.address);
@@ -295,7 +307,7 @@ int db_unlock(char *glref)
     return(0);
   }
   else {
-    return((int) ret_val);
+    return((int) *ret_val);
   }
 
 }
